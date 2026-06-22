@@ -58,7 +58,7 @@ process.on('uncaughtException', (err) => {
 
 //EVENTO: BOT ONLINE
 const { ActivityType } = require("discord.js");
-client.once("ready", () => {
+client.once("clientReady", () => {
     console.log(`${client.user.username} está online`);
     client.user.setActivity('A levar com o calibre 22!', { type: ActivityType.Playing });
 });
