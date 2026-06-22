@@ -11,37 +11,43 @@ module.exports = {
       //Exceções
         const ID_EXCECAO_1 = "1303867204441210903"; 
         const ID_EXCECAO_2 = "867044372565327912"; 
+        const ID_EXCECAO_3 = "610567380162052106";
         let tamanho;
         let frase = "";
-        let gifBanana = "https://i.imgur.com/HVVh94a.gif"
+        let gifBanana = "https://i.imgur.com/HVVh94a.gif";
        
         if (alvoID === ID_EXCECAO_1) {
-            tamanho = 22;
+            tamanho = "22 cm";
             frase = "O nosso Chamber tem sempre calibre 22 quando usa a ult!";
-            gifBanana = "https://media.tenor.com/xxFPW82ZUucAAAAC/chamber-you-want-to-play-lets-play.gif"
+            gifBanana = "https://media.tenor.com/xxFPW82ZUucAAAAC/chamber-you-want-to-play-lets-play.gif";
         } else if (alvoID === ID_EXCECAO_2) {
-            tamanho = 16;
+            tamanho = "16 cm";
             frase = "Na verdade tem 16, mas eu digo sempre que é pequeno";
-            gifBanana = "https://i.imgflip.com/8tax5p.jpg"
+            gifBanana = "https://i.imgflip.com/8tax5p.jpg";
+        } else if (alvoID === ID_EXCECAO_3) {
+            tamanho = "Secreto";
+            frase = "É cor-de-rosa com 5 vibrações diferentes e o tamanho perfeito!";
+            gifBanana = "https://64.media.tumblr.com/146e3f988077e0bb09b51415867b898c/tumblr_mj44w7JXyG1rnzjtwo1_500.gifv";
         } else {
-            tamanho = Math.floor(Math.random() * 31);
+            tamanho = `${Math.floor(Math.random() * 31)} cm`;
 
-            if (tamanho === 0) {
+            if (tamanho === "0 cm") {
                 frase = "Só com a ajuda de um microscópio é que se consegue ver...";
-            } else if (tamanho < 10) {
+            } else if (parseInt(tamanho) < 10) {
                 frase = "Se souber o usar não está assim tão mau!";
-            } else if (tamanho < 18) {
+            } else if (parseInt(tamanho) < 18) {
                 frase = " Um tamanho perfeitamente humilde e honesto.";
-            } else if (tamanho < 26) {
-                frase = "Eish, se isso entrar em mim amanhã já não ando!";
+            } else if (parseInt(tamanho) < 26) {
+                frase = "Eish, se isso entrar em mi amanhã já não ando!";
             } else {
                 frase = "Lendário! Isso já conta como uma arma branca!";
             }
         }
+
         const embedBanana = new EmbedBuilder()
             .setColor("#4c0655")
             .setTitle("🍌 Medidor da Banana")
-            .setDescription(`A banana de ${alvo} tem exatamente **${tamanho} cm**!\n\n_${frase}_`)
+            .setDescription(`A banana de ${alvo} tem exatamente **${tamanho}**!\n\n_${frase}_`)
             .setImage(gifBanana) 
             
             .setFooter({
