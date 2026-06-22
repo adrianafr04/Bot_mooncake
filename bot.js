@@ -60,7 +60,7 @@ process.on('uncaughtException', (err) => {
 const { ActivityType } = require("discord.js");
 client.once("clientReady", () => {
     console.log(`${client.user.username} está online`);
-    client.user.setActivity('A jogar League og Legends!', { type: ActivityType.Playing });
+    client.user.setActivity('A jogar League of Legends!', { type: ActivityType.Playing });
 });
 
 // EVENTO: EXECUÇÃO DE COMANDOS
