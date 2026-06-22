@@ -42,7 +42,7 @@ module.exports = {
             .setColor("#4c0655")
             .setTitle("🍌 Medidor da Banana")
             .setDescription(`A banana de ${alvo} tem exatamente **${tamanho} cm**!\n\n_${frase}_`)
-            .setImage("gifBanana") 
+            .setImage(gifBanana) 
             
             .setFooter({
                 text: `Medido a pedido de ${message.author.username}`,
