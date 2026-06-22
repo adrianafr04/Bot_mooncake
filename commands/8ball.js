@@ -41,6 +41,9 @@ module.exports = {
             .setColor("#4c0655") 
             .setTitle("🔮 Bola Mágica da Zyron's Slut")
             .setImage("https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUydHVvN2RpeW04YWs2eXhvem83eHhoZjNnYmVvb3NlcGM2YThxZGtsMSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/zgGrSqSi3SSqs/giphy.gif")
+            .addFields(
+                {value:'**{respostaAleatoria}**', inline:false}
+            )
             .setFooter({ 
                 text: `Consultado por ${message.author.username}`, 
                 iconURL: message.author.displayAvatarURL({ dynamic: true }) 
