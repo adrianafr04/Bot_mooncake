@@ -1,30 +1,35 @@
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
-    name: "welcome",
+    name: "welcome", 
     description: "Testa a Embed de boas-vindas do ficheiro events/welcome.js",
     async execute(message, args, client) {
         // Usa quem enviou o comando para simular o novo membro
         const membro = message.member;
-        const canalPrincipalID = "1392475192730845195";
-        // Lista de nomes permitidos para o canal de boas-vindas
+        const canalPrincipalID = "1392475192730845195"; 
         const nomesPermitidos = ["welcome", "bem-vindo", "boas-vindas"];
 
-        // Procura o canal no servidor atual
-        const canal = message.guild.channels.cache.find(c => 
-            nomesPermitidos.includes(c.name.toLowerCase()) && c.isTextBased()
-        );
+        //tenta encontrar call pelo ID
+        let canal = message.guild.channels.cache.get(canalPrincipalID);
 
-        if (!canal) {
-            return message.reply(
-                " Não encontrei nenhum canal chamado `welcome`, `bem-vindo` ou `boas-vindas` neste servidor!"
+        // procura por nomes padrão
+        if (!canal || !canal.isTextBased()) {
+            canal = message.guild.channels.cache.find(c => 
+                nomesPermitidos.includes(c.name.toLowerCase()) && c.isTextBased()
             );
         }
 
+        // Se mesmo assim não encontrar nenhum canal válido
+        if (!canal) {
+            return message.reply(
+                " Não encontrei o canal pelo ID e nenhum canal chamado `welcome`, `bem-vindo` ou `boas-vindas` existe neste servidor!"
+            );
+        }
 
+        // --- EMBED IGUAL AO DO EVENTS/WELCOME.JS ---
         const embedWelcome = new EmbedBuilder()
-            .setColor("#2b2d31")
-            .setTitle("Bem-vindo(a) ao nosso servidor!")
+            .setColor("#4c0655")
+            .setTitle("🎉 Bem-vindo(a) ao nosso servidor! 🎉")
             .setDescription(
                 `Olá, ${membro}! Seja muito bem-vindo(a) à nossa comunidade. Estamos felizes por ter você aqui!\n\n` +
                 `📌 **Não se esqueça de ler as regras** para garantir uma boa convivência com todos.\n\n` +
@@ -33,18 +38,15 @@ module.exports = {
                 `Desejamos uma ótima experiência e esperamos que você se divirta bastante! 🚀`
             )
             .setThumbnail(membro.user.displayAvatarURL({ dynamic: true, size: 256 }))
-            
-            // Certifica-te de manter aqui o mesmo link de imagem/GIF que usares no events/welcome.js!
-            .setImage("https://i.imgur.com/LinkDoSeuGifAqui.gif") 
-            
+            .setImage("https://i.pinimg.com/originals/b0/45/fc/b045fc647b6a4a4bc2dd3d31f4a948ef.gif") 
             .setFooter({ 
                 text: `${membro.guild.name} • Membro nº ${membro.guild.memberCount} (Simulação)`, 
                 iconURL: membro.guild.iconURL({ dynamic: true }) 
             })
             .setTimestamp();
 
-        // Envia o aviso e a embed de teste
+        // Envia as mensagens no canal correto encontrado por ID
         await message.reply(` Simulação enviada com sucesso para o canal ${canal}!`);
-        await canal.send({ content: `👋 Ei ${membro}, chegaste! (Teste do Handler)`, embeds: [embedWelcome] });
+        await canal.send({ content: ` Ei ${membro}, chegaste!`, embeds: [embedWelcome] });
     }
 };

@@ -8,9 +8,13 @@ module.exports = {
         const nomesPermitidos = ["welcome", "bem-vindo", "boas-vindas"];
         const canalPrincipalID = "1392475192730845195";
         // Procura no servidor um canal de texto que tenha um dos nomes da lista
-        const canal = membro.guild.channels.cache.find(c => 
-            nomesPermitidos.includes(c.name.toLowerCase()) && c.isTextBased()
-        );
+        let canal = membro.guild.channels.cache.get(canalPrincipalID);
+
+        if (!canal || !canal.isTextBased()) {
+            canal = membro.guild.channels.cache.find(c => 
+                nomesPermitidos.includes(c.name.toLowerCase()) && c.isTextBased()
+            );
+        }
 
         if (!canal) return;
 
