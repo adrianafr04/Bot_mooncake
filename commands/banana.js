@@ -25,7 +25,7 @@ module.exports = {
             frase = "Na verdade tem 16, mas eu digo sempre que é pequeno";
             gifBanana = "https://i.imgflip.com/8tax5p.jpg";
         } else if (alvoID === ID_EXCECAO_3) {
-            tamanho = "Secreto";
+            tamanho = "(Ups, não posso revelar)";
             frase = "É cor-de-rosa com 5 vibrações diferentes e o tamanho perfeito!";
             gifBanana = "https://64.media.tumblr.com/146e3f988077e0bb09b51415867b898c/tumblr_mj44w7JXyG1rnzjtwo1_500.gifv";
         } else {
