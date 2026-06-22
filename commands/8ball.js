@@ -40,10 +40,7 @@ module.exports = {
         const embed8ball = new EmbedBuilder()
             .setColor("#4c0655") 
             .setTitle("🔮 Bola Mágica da Zyron's Slut")
-            .setThumbnail("https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUydHVvN2RpeW04YWs2eXhvem83eHhoZjNnYmVvb3NlcGM2YThxZGtsMSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/zgGrSqSi3SSqs/giphy.gif")
-            .addFields(
-                { name: "A minha resposta:", value: `**${respostaAleatoria}**`, inline: false }
-            )
+            .setImage("https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUydHVvN2RpeW04YWs2eXhvem83eHhoZjNnYmVvb3NlcGM2YThxZGtsMSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/zgGrSqSi3SSqs/giphy.gif")
             .setFooter({ 
                 text: `Consultado por ${message.author.username}`, 
                 iconURL: message.author.displayAvatarURL({ dynamic: true }) 
