@@ -8,6 +8,20 @@ module.exports = {
         const nomesPermitidos = ["welcome", "bem-vindo", "boas-vindas"];
         const canalPrincipalID = "1392475192730845195";
         // Procura no servidor um canal de texto que tenha um dos nomes da lista
+        const cargoAutoID = "1392477608221999105"; // ID do cargo de membros
+
+        //dar o cargo de membro ao entrar no server
+        try {
+            const cargo = membro.guild.roles.cache.get(cargoAutoID);
+            if (cargo) {
+                await membro.roles.add(cargo);
+                console.log(`Cargo ${cargo.name} entregue a ${membro.user.username}`);
+            } else {
+                console.log("[AVISO] Cargo automático não encontrado pelo ID.");
+            }
+        } catch (error) {
+            console.error("[ERRO] Não foi possível dar o cargo automático:", error.message);
+        }
         let canal = membro.guild.channels.cache.get(canalPrincipalID);
 
         if (!canal || !canal.isTextBased()) {
