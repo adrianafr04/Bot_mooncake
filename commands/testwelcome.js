@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
     name: "welcome", 
-    description: "Testa a Embed de boas-vindas do ficheiro events/welcome.js",
+    description: "Teste de boas-vindas",
     async execute(message, args, client) {
         // Usa quem enviou o comando para simular o novo membro
         const membro = message.member;
