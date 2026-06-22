@@ -12,7 +12,7 @@ module.exports = {
 
         // 2. Cria a Embed de ajuda
         const embed = new EmbedBuilder()
-            .setColor("#2b2d31")
+            .setColor("#a817c5")
             .setTitle("Painel de Comandos do Mooncake")
             .setDescription(`Aqui está a lista de tudo o que posso fazer por ti! O meu prefixo atual é \`${prefixo}\`.`)
             .setThumbnail(client.user.displayAvatarURL())
