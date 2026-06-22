@@ -1,38 +1,88 @@
 require("dotenv").config();
-const { Client, GatewayIntentBits } = require("discord.js");
+const { Client, GatewayIntentBits, Partials, Collection } = require("discord.js");
+const fs = require("node:fs");
+const path = require("node:path");
 const configDados = require("./config.json");
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent ]
+        GatewayIntentBits.GuildBans,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.MessageContent
+    ],
+    partials: [
+        Partials.Message,
+        Partials.GuildMember,
+        Partials.Reaction,
+        Partials.User,
+        Partials.Channel,
+        Partials.GuildScheduledEvent,
+    ]
 });
-const { ActivityType } = require("discord.js");
-client.once("clientReady", () => {
-    console.log("Mooncake está online!!");
-    client.user.setActivity('A levar com o calibre 22!', { type: ActivityType.Playing });
 
-});
-client.on("messageCreate", async message => {
-     // Impedir que o bot responda a outros bots ou por DM
-     if(message.author.bot) return;
-     if (!message.guild) return;
-     // Pega o prefixo do config.json
-     const prefixo = configDados.prefix;
-     // Verifica se a mensagem começa com !
-     if (!message.content.startsWith(prefixo)) return;
+// Coleção para guardar comandos
+client.commands = new Collection();
 
-     const args = message.content.slice(prefixo.length).trim().split(/ +/g);
-     const comando = args.shift().toLowerCase();
-     //Configuração do comando ping
-    if(comando === "ping") {
-    const m = await message.channel.send("Ping?");
-    const latenciaLocal = m.createdTimestamp - message.createdTimestamp;
-    const latenciaAPI = Math.round(client.ws.ping);
-    await m.edit(`Olá! \nEstou online, Latência é de **${latenciaLocal}ms**. Latência da API é de **${latenciaAPI}ms**.`);
+// Sistema para carregar comandos
+const commandsPath = path.join(__dirname, "commands");
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".js"));
+
+for (const file of commandFiles) {
+    const filePath = path.join(commandsPath, file);
+    const command = require(filePath);
+    
+    if ("name" in command && "execute" in command) {
+        client.commands.set(command.name, command);
+        console.log(`[SUCESSO] Comando carregado: ${command.name}`);
+    } else {
+        console.log(`[AVISO] O comando em ${filePath} está a faltar o "name" ou "execute".`);
     }
-  });
+}
 
+//ANTI-CRASH (Report de erros)
+const process = require('node:process');
+process.on('unhandledRejection', async (reason, promise) => {
+    console.log('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+process.on('uncaughtExceptionMonitor', (err, origin) => {
+    console.log('Uncaught Exception Monitor:', err, origin);
+});    
+process.on('uncaughtException', (err) => {
+    console.log('UncaughtException:', err);
+});
 
+//EVENTO: BOT ONLINE
+const { ActivityType } = require("discord.js");
+client.once("ready", () => {
+    console.log(`${client.user.username} está online`);
+    client.user.setActivity('A levar com o calibre 22!', { type: ActivityType.Playing });
+});
+
+// EVENTO: EXECUÇÃO DE COMANDOS
+client.on("messageCreate", async message => {
+    if (message.author.bot) return;
+    if (!message.guild) return;
+
+    const prefixo = configDados.prefix;
+    if (!message.content.startsWith(prefixo)) return;
+
+    const args = message.content.slice(prefixo.length).trim().split(/ +/g);
+    const comandoNome = args.shift().toLowerCase();
+    const comando = client.commands.get(comandoNome);
+
+    if (!comando) return;
+
+    try {
+        await comando.execute(message, args, client);
+    } catch (error) {
+        console.error(error);
+        replyWithMessage(message, "Houve um erro ao tentar executar esse comando!");
+    }
+});
 
 client.login(process.env.DISCORD_TOKEN);
