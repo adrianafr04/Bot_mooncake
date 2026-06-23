@@ -23,7 +23,7 @@ module.exports = {
         } else if (alvoID === ID_EXCECAO_2) {
             tamanho = "16 cm";
             frase = "Na verdade tem 16, mas eu digo sempre que é pequeno";
-            gifBanana = "https://i.imgflip.com/8tax5p.jpg";
+            gifBanana = "https://i.pinimg.com/736x/b7/b8/60/b7b8607365b5a0be295cd41507e84f2e.jpg";
         } else if (alvoID === ID_EXCECAO_3) {
             tamanho = "(Ups, não posso revelar)";
             frase = "É cor-de-rosa com 5 vibrações diferentes e o tamanho perfeito!";
@@ -34,11 +34,11 @@ module.exports = {
             if (tamanho === "0 cm") {
                 frase = "Só com a ajuda de um microscópio é que se consegue ver...";
             } else if (parseInt(tamanho) < 10) {
-                frase = "Se souber o usar não está assim tão mau!";
+                frase = "Se souber usar não está assim tão mau!";
             } else if (parseInt(tamanho) < 18) {
-                frase = " Um tamanho perfeitamente humilde e honesto.";
+                frase = " Um tamanho perfeitamente humilde e honesto!";
             } else if (parseInt(tamanho) < 26) {
-                frase = "Eish, se isso entrar em mi amanhã já não ando!";
+                frase = "Eish, se isso entrar em mim amanhã já não ando!";
             } else {
                 frase = "Lendário! Isso já conta como uma arma branca!";
             }
