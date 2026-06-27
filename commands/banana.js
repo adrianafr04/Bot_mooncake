@@ -12,6 +12,7 @@ module.exports = {
         const ID_EXCECAO_1 = "1303867204441210903"; 
         const ID_EXCECAO_2 = "867044372565327912"; 
         const ID_EXCECAO_3 = "610567380162052106";
+        const ID_EXCECAO_4 = "1361858340858102022"
         let tamanho;
         let frase = "";
         let gifBanana = "https://i.imgur.com/HVVh94a.gif";
@@ -28,6 +29,12 @@ module.exports = {
             tamanho = "(Ups, não posso revelar)";
             frase = "É cor-de-rosa com 5 vibrações diferentes e o tamanho perfeito!";
             gifBanana = "https://64.media.tumblr.com/146e3f988077e0bb09b51415867b898c/tumblr_mj44w7JXyG1rnzjtwo1_500.gifv";
+        } else if (alvoID === ID_EXCECAO_4) {
+            tamanho = "15 cm";
+            frase = "Queres saber o tamanho porque? Não vais arrancar a banana?";
+            gifBanana = "https://media.tenor.com/GuZoT7rM1tgAAAAM/natsuru-transformation.gif";
+        
+        
         } else {
             tamanho = `${Math.floor(Math.random() * 31)} cm`;
 
