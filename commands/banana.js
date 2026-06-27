@@ -31,7 +31,7 @@ module.exports = {
             gifBanana = "https://64.media.tumblr.com/146e3f988077e0bb09b51415867b898c/tumblr_mj44w7JXyG1rnzjtwo1_500.gifv";
         } else if (alvoID === ID_EXCECAO_4) {
             tamanho = "15 cm";
-            frase = "Queres saber o tamanho porque? Não vais arrancar a banana?";
+            frase = "A women is a women, even with a candle!";
             gifBanana = "https://media.tenor.com/GuZoT7rM1tgAAAAM/natsuru-transformation.gif";
         
         
