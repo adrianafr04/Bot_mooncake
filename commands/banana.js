@@ -23,7 +23,7 @@ module.exports = {
             gifBanana = "https://media.tenor.com/xxFPW82ZUucAAAAC/chamber-you-want-to-play-lets-play.gif";
         } else if (alvoID === ID_EXCECAO_2) {
             tamanho = "16,7 cm";
-            frase = "Na verdade tem 16,7, mas eu digo sempre que é pequeno";
+            frase = "Na verdade tem 16.7, mas eu digo sempre que é pequeno";
             gifBanana = "https://i.pinimg.com/736x/b7/b8/60/b7b8607365b5a0be295cd41507e84f2e.jpg";
         } else if (alvoID === ID_EXCECAO_3) {
             tamanho = "(Ups, não posso revelar)";
