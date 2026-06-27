@@ -12,7 +12,7 @@ module.exports = {
         const ID_EXCECAO_1 = "1303867204441210903"; 
         const ID_EXCECAO_2 = "867044372565327912"; 
         const ID_EXCECAO_3 = "610567380162052106";
-        const ID_EXCECAO_4 = "1361858340858102022"
+        const ID_EXCECAO_4 = "610567380162052106"
         let tamanho;
         let frase = "";
         let gifBanana = "https://i.imgur.com/HVVh94a.gif";
