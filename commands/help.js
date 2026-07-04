@@ -5,7 +5,7 @@ module.exports = {
     name: "help",
     description: "Mostra a lista com todos os comandos disponíveis de Mooncake",
     
-    data: new SlashCommandBuilder()
+    data = new SlashCommandBuilder()
         .setName('help')
         .setDescription('Mostra a lista com todos os comandos disponíveis de Mooncake'),
     async execute(interaction, client) {

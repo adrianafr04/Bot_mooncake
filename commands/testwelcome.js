@@ -4,7 +4,7 @@ module.exports = {
     name: "welcome", 
     description: "Teste de boas-vindas",
     permissions: [PermissionFlagsBits.Administrator], //bloquea o comando para administradores
-    data: new SlashCommandBuilder()
+    data = new SlashCommandBuilder()
         .setName ('testewelcome')
         .setDescription('Envia um embed como demonstração do welcome!')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator), // o comando só pode ser usado com a permissão de administrador

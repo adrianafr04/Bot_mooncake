@@ -2,7 +2,7 @@ const {SlashCommandBuilder} = require('discord.js');
 module.exports = {
     name: "ping",
     description: "Latência do bot e API do discord",
-    data: new SlashCommandBuilder()
+    data = new SlashCommandBuilder()
     .setName('ping')
     .setDescription('Latência do bot e API do discord'),
     async execute(message, args, client) {

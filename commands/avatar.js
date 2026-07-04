@@ -3,7 +3,7 @@ const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 module.exports = {
     name: "avatar",
     description: "Mostra o avatar de um utilizador",
-    data: new SlashCommandBuilder()
+    data =  new SlashCommandBuilder()
     .setName('avatar')
     .setDescription('Mostra o avatar de um utilizador'),
     async execute(message, args, client) {
