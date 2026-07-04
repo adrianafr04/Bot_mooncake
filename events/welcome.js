@@ -8,7 +8,7 @@ module.exports = {
         const nomesPermitidos = ["welcome", "bem-vindo", "boas-vindas"];
         const canalPrincipalID = "1523040255429841028";
         // Procura no servidor um canal de texto que tenha um dos nomes da lista
-        const cargoAutoID = "1392477608221999105"; // ID do cargo de membros
+        const cargoAutoID = "1523041527088021595"; // ID do cargo de membros
 
         //dar o cargo de membro ao entrar no server
         try {
