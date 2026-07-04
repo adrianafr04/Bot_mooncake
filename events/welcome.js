@@ -6,7 +6,7 @@ module.exports = {
     async execute(membro, client) {
         // Lista de nomes permitidos para o canal de boas-vindas
         const nomesPermitidos = ["welcome", "bem-vindo", "boas-vindas"];
-        const canalPrincipalID = "1392475192730845195";
+        const canalPrincipalID = "1523040255429841028";
         // Procura no servidor um canal de texto que tenha um dos nomes da lista
         const cargoAutoID = "1392477608221999105"; // ID do cargo de membros
 
