@@ -3,9 +3,9 @@ const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 module.exports = {
     name: "avatar",
     description: "Mostra o avatar de um utilizador",
-    data =  new SlashCommandBuilder()
-    .setName('avatar')
-    .setDescription('Mostra o avatar de um utilizador'),
+    data:  new SlashCommandBuilder()
+        .setName('avatar')
+        .setDescription('Mostra o avatar de um utilizador'),
     async execute(message, args, client) {
         // Procura o utilizador: se alguém for mencionado, usa essa pessoa; 
         // se usarem uma ID, procura pela ID; se não puserem nada, usa quem enviou a mensagem.

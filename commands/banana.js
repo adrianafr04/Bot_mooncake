@@ -3,7 +3,7 @@ const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 module.exports = {
     name: "banana",
     description: "Mede o tamanho da banana de um utilizador",
-    data = new SlashCommandBuilder()
+    data: new SlashCommandBuilder()
         .setName('banana')
         .setDescription('Mede o tamanho da banana de um utilizador'),
     async execute(message, args, client) {

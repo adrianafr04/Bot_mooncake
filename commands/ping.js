@@ -2,9 +2,9 @@ const {SlashCommandBuilder} = require('discord.js');
 module.exports = {
     name: "ping",
     description: "Latência do bot e API do discord",
-    data = new SlashCommandBuilder()
-    .setName('ping')
-    .setDescription('Latência do bot e API do discord'),
+    data: new SlashCommandBuilder()
+        .setName('ping')
+        .setDescription('Latência do bot e API do discord'),
     async execute(message, args, client) {
         const m = await message.channel.send("Ping?");
         const latenciaLocal = m.createdTimestamp - message.createdTimestamp;

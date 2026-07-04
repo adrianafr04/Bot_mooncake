@@ -5,7 +5,7 @@ module.exports = {
     description: "Envia uma mensagem personalizada para um determinado canal",
     permissions: [PermissionFlagsBits.Administrator], // apenas para administradores
 
-    data = new SlashCommandBuilder()
+    data: new SlashCommandBuilder()
         .setName('mensagem')
         .setDescription('Envia uma mensagem personalizada para um determinado canal')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator) // Bloqueia o comando para administradores

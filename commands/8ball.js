@@ -3,7 +3,7 @@ const { EmbedBuilder, SlashCommandSubcommandBuilder, SlashCommandBuilder } = req
 module.exports = {
     name: "bot",
     description: "Faz uma pergunta à bola mágica e ela responderá",
-    data = new SlashCommandBuilder()
+    data: new SlashCommandBuilder()
         .setName('bot')
         .setDescription('Faz uma pergunta à bola mágica e ela responderá'),
     async execute(message, args, client) {
