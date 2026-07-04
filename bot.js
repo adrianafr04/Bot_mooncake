@@ -60,7 +60,7 @@ process.on('uncaughtException', (err) => {
 
 // bot online e atividade
 const { ActivityType } = require("discord.js");
-client.once("ready", () => {
+client.once("clientReady", () => {
     console.log(`${client.user.username} está online`);
     client.user.setActivity('Eu vou curingar HAHAHAHAHA!', { type: ActivityType.Playing });
 });
