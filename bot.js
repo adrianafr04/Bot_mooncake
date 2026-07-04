@@ -13,7 +13,7 @@ const client = new Client({
         GatewayIntentBits.GuildBans,
         GatewayIntentBits.GuildMessageReactions,
         GatewayIntentBits.GuildVoiceStates,
-        GatewayIntentBits.MessageContent
+        GatewayIntentBits.MessageContent 
     ],
     partials: [
         Partials.Message,
@@ -25,7 +25,6 @@ const client = new Client({
     ]
 });
 
-// Coleção para guardar comandos
 client.commands = new Collection();
 
 // Sistema para carregar comandos
@@ -36,15 +35,18 @@ for (const file of commandFiles) {
     const filePath = path.join(commandsPath, file);
     const command = require(filePath);
     
-    if ("name" in command && "execute" in command) {
-        client.commands.set(command.name, command);
-        console.log(`[SUCESSO] Comando carregado: ${command.name}`);
+    // Alterado para verificar se tem o objeto "data" (dos Slash Commands) OU o "name" tradicional
+    if ((command.data || command.name) && (command.execute || command.executePrefix)) {
+        //Guarda na coleção usando o nome correto (seja do Slash ou do Prefixo)
+        const name = command.data ? command.data.name : command.name;
+        client.commands.set(name, command);
+        console.log(`[SUCESSO] Comando carregado: ${name}`);
     } else {
-        console.log(`[AVISO] O comando em ${filePath} está a faltar o "name" ou "execute".`);
+        console.log(`[AVISO] O comando em ${filePath} está com uma estrutura inválida.`);
     }
 }
 
-//ANTI-CRASH (Report de erros)
+// Report de erros
 const process = require('node:process');
 process.on('unhandledRejection', async (reason, promise) => {
     console.log('Unhandled Rejection at:', promise, 'reason:', reason);
@@ -56,14 +58,14 @@ process.on('uncaughtException', (err) => {
     console.log('UncaughtException:', err);
 });
 
-//EVENTO: BOT ONLINE
+// bot online e atividade
 const { ActivityType } = require("discord.js");
-client.once("clientReady", () => {
+client.once("ready", () => {
     console.log(`${client.user.username} está online`);
-    client.user.setActivity('A jogar League of Legends!', { type: ActivityType.Playing });
+    client.user.setActivity('Eu vou curingar HAHAHAHAHA!', { type: ActivityType.Playing });
 });
 
-// EVENTO: EXECUÇÃO DE COMANDOS
+// comandos por prefixo
 client.on("messageCreate", async message => {
     if (message.author.bot) return;
     if (!message.guild) return;
@@ -78,12 +80,37 @@ client.on("messageCreate", async message => {
     if (!comando) return;
 
     try {
-        await comando.execute(message, args, client);
+        if (comando.executePrefix) {
+            await comando.executePrefix(message, args, client);
+        } else if (comando.execute) {
+            await comando.execute(message, args, client);
+        }
     } catch (error) {
         console.error(error);
-        replyWithMessage(message, "Houve um erro ao tentar executar esse comando!");
+        await message.reply("Houve um erro ao tentar executar o comando!");
     }
 });
+
+client.on("interactionCreate", async interaction => {
+    if (!interaction.isChatInputCommand()) return;
+
+    const comando = client.commands.get(interaction.commandName);
+    if (!comando) return;
+
+    try {
+        if (comando.execute) {
+            await comando.execute(interaction, client);
+        }
+    } catch (error) {
+        console.error(error);
+        if (interaction.replied || interaction.deferred) {
+            await interaction.followUp({ content: 'Houve um erro ao executar o comando!', ephemeral: true });
+        } else {
+            await interaction.reply({ content: 'Houve um erro ao executar o comando!', ephemeral: true });
+        }
+    }
+});
+
 // Ler eventos da pasta eventos 
 const eventsPath = path.join(__dirname, 'events');
 
@@ -102,4 +129,5 @@ if (fs.existsSync(eventsPath)) {
         console.log(`Evento carregado: ${event.name}`);
     }
 }
+
 client.login(process.env.DISCORD_TOKEN);
