@@ -1,11 +1,13 @@
-const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 
 module.exports = {
     name: "welcome", 
     description: "Teste de boas-vindas",
+    permissions: [PermissionFlagsBits.Administrator], //bloquea o comando para administradores
     data: new SlashCommandBuilder()
         .setName ('testewelcome')
-        .setDescription('Envia um embed como demonstração do welcome!'),
+        .setDescription('Envia um embed como demonstração do welcome!')
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator), // o comando só pode ser usado com a permissão de administrador
     async execute(message, args, client) {
         // Usa quem enviou o comando para simular o novo membro
         const membro = message.member;

@@ -3,12 +3,12 @@ const { SlashCommandBuilder, PermissionFlagsBits, ChannelType, EmbedBuilder } = 
 module.exports = {
     name: "mensagem",
     description: "Envia uma mensagem personalizada para um determinado canal",
-    permissions: [PermissionFlagsBits.ManageMessages], // Permissão necessária
-    
+    permissions: [PermissionFlagsBits.Administrator], // apenas para administradores
+
     data: new SlashCommandBuilder()
         .setName('mensagem')
         .setDescription('Envia uma mensagem personalizada para um determinado canal')
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages) // apenas pessoas com a permissão de gerir mensagens é que podem utilizar este comando
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator) // Bloqueia o comando para administradores
         .addChannelOption(option =>
             option.setName('canal')
                 .setDescription('Canal para onde a mensagem será enviada')
