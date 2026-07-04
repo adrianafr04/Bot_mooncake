@@ -62,7 +62,7 @@ process.on('uncaughtException', (err) => {
 const { ActivityType } = require("discord.js");
 client.once("clientReady", () => {
     console.log(`${client.user.username} está online`);
-    client.user.setActivity('Eu vou curingar HAHAHAHAHA!', { type: ActivityType.Playing });
+    client.user.setActivity('Eu vou coringar HAHAHAHAHA!', { type: ActivityType.Playing });
 });
 
 // comandos por prefixo
