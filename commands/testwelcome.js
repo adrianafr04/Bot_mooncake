@@ -1,8 +1,11 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
     name: "welcome", 
     description: "Teste de boas-vindas",
+    data: new SlashCommandBuilder()
+        .setName ('testewelcome')
+        .setDescription('Envia um embed como demonstração do welcome!'),
     async execute(message, args, client) {
         // Usa quem enviou o comando para simular o novo membro
         const membro = message.member;

@@ -1,9 +1,12 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const configDados = require("../config.json"); // Sobe uma pasta para ler o prefixo
 
 module.exports = {
     name: "help",
     description: "Mostra a lista com todos os comandos disponíveis de Mooncake",
+    data: new SlashCommandBuilder()
+        .setName('help')
+        .setDescription('Mostra a lista com todos os comandos disponíveis de Mooncake'),
     async execute(message, args, client) {
         const prefixo = configDados.prefix;
 

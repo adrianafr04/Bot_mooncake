@@ -1,8 +1,11 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, SlashCommandSubcommandBuilder, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
     name: "bot",
     description: "Faz uma pergunta à bola mágica e ela responderá",
+    data: new SlashCommandBuilder()
+        .setName('bot')
+        .setDescription('Faz uma pergunta à bola mágica e ela responderá'),
     async execute(message, args, client) {
         // 1. Verifica se o usuário fez uma pergunta
         const pergunta = args.join(" ");
@@ -39,7 +42,7 @@ module.exports = {
         // 4. Cria uma Embed bonita com a resposta
         const embed8ball = new EmbedBuilder()
             .setColor("#4c0655") 
-            .setTitle("🔮 Bola Mágica da Zyron's Slut")
+            .setTitle("🔮 Bola Mágica da Mooncake")
             .setDescription(`${respostaAleatoria}`)
             .setImage("https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUydHVvN2RpeW04YWs2eXhvem83eHhoZjNnYmVvb3NlcGM2YThxZGtsMSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/zgGrSqSi3SSqs/giphy.gif")
             .setFooter({ 

@@ -1,8 +1,11 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
     name: "banana",
     description: "Mede o tamanho da banana de um utilizador",
+    data = new SlashCommandBuilder()
+        .setName('banana')
+        .setDescription('Mede o tamanho da banana de um utilizador'),
     async execute(message, args, client) {
         //Pega no utilizador mencionado ou em quem enviou o comando
         const alvo = message.mentions.members.first() || message.member;
