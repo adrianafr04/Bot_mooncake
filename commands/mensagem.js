@@ -1,4 +1,11 @@
-const { SlashCommandBuilder, PermissionFlagsBits, ChannelType, EmbedBuilder } = require('discord.js');
+const { 
+    SlashCommandBuilder, 
+    PermissionFlagsBits, 
+    ChannelType, 
+    EmbedBuilder, 
+    ActionRowBuilder, 
+    ChannelSelectMenuBuilder 
+} = require('discord.js');
 
 module.exports = {
     name: "mensagem",
@@ -8,61 +15,35 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('mensagem')
         .setDescription('Envia uma mensagem personalizada para um determinado canal')
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator) // Bloqueia o comando para administradores
-        .addChannelOption(option =>
-            option.setName('canal')
-                .setDescription('Canal para onde a mensagem será enviada')
-                .setRequired(true)
-                .addChannelTypes(ChannelType.GuildText) // apenas canais de texto 
-        )
-        .addStringOption(option =>
-            option.setName('titulo')
-                .setDescription('O título da mensagem')
-                .setRequired(true)
-        )
-        .addStringOption(option =>
-            option.setName('descricao')
-                .setDescription('A conteúdo da mensagem (usa \n para passar de linha)')
-                .setRequired(true)
-        )
-        .addStringOption(option =>
-            option.setName('cor')
-                .setDescription('Escolhe a cor da barra lateral (Ex: #FF0000 para Vermelho)')
-                .setRequired(false)
-        ),
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator), // Bloqueia o comando para administradores
 
-    async execute(interaction) {
-        // Obter os dados que o utilizador escreveu no comando
-        const targetChannel = interaction.options.getChannel('canal');
-        const title = interaction.options.getString('titulo');
-        const description = interaction.options.getString('descricao');
-        const colorHex = interaction.options.getString('cor') || '#4e094b'; // Roxo defaut
-
+    async execute(interaction, client) {
         // Criar o Embed bonito
         const embed = new EmbedBuilder()
-            .setTitle(title)
-            .setDescription(description.replace(/\\n/g, '\n')) // Permite quebras de linha se escreverem \n
-            .setColor(colorHex)
+            .setTitle("Escreva uma mensagem")
+            .setDescription("Selecione o canal de destino no menu abaixo. Após a seleção, abrir-se-á uma janela para escrever o conteúdo da mensagem.")
+            .setColor('#4e094b') // Roxo defaut
             .setTimestamp() // Adiciona a hora atual no fundo
             .setFooter({ 
-                text: `Enviado por ${interaction.user.tag}`, 
+                text: `Solicitado por ${interaction.user.username}`, 
                 iconURL: interaction.user.displayAvatarURL() 
             });
 
+        // Menu de seleção que lista automaticamente os canais de texto do servidor
+        const selectMenu = new ChannelSelectMenuBuilder()
+            .setCustomId('selecionar_canal_embed')
+            .setPlaceholder('Escolha o canal de destino...')
+            .addChannelTypes(ChannelType.GuildText); // apenas canais de texto 
+
+        const row = new ActionRowBuilder().addComponents(selectMenu);
+
         try {
-            // Envia o embed para o canal pretendido
-            await targetChannel.send({ embeds: [embed] });
-
-            // 4. Responder à interação (apenas visível para quem usou o comando) para confirmar o envio
-            await interaction.reply({ 
-                content: `Embed enviado com sucesso para o canal ${targetChannel}!`, 
-                ephemeral: true 
-            });
-
+            // Envia o painel inicial com o menu para o utilizador
+            await interaction.reply({ embeds: [embed], components: [row], ephemeral: true });
         } catch (error) {
             console.error(error);
             await interaction.reply({ 
-                content: 'Ocorreu um erro ao tentar enviar o embed. Verifica se eu tenho permissões para falar no canal.', 
+                content: 'Ocorreu um erro ao tentar abrir o painel.', 
                 ephemeral: true 
             });
         }
@@ -70,43 +51,36 @@ module.exports = {
 
     // Adicionado: Execução via prefixo para evitar o erro de crash
     async executePrefix(message, args, client) {
-        // Verificar se é Administrador no prefixo
+        // Verificar se é Adminstrador no prefixo
         if (!message.member.permissions.has(PermissionFlagsBits.Administrator)) {
-            return message.reply("❌ Este comando é exclusivo para Administradores do servidor!");
+            return message.reply(" Este comando é exclusivo para Administradores do servidor!");
         }
-
-        const targetChannel = message.mentions.channels.first();
-    
-        const resto = args.slice(1).join(' ');
-
-        if (!targetChannel || !resto.includes('|')) {
-            return message.reply("**Uso incorreto!** Usa desta forma:\n`!mensagem #canal O Título Aqui | A Descrição Aqui (podes usar \\n)`");
-        }
-
-        const partes = resto.split('|');
-        const title = partes[0].trim();
-        const description = partes[1].trim();
 
         // Criar o Embed bonito
         const embed = new EmbedBuilder()
-            .setTitle(title)
-            .setDescription(description.replace(/\\n/g, '\n')) // Permite quebras de linha se escreverem \n
+            .setTitle(" Escreva uma mensagem ")
+            .setDescription("Selecione o canal de destino no menu abaixo. Após a seleção, abrir-se-á uma janela para escrever o conteúdo da mensagem.")
             .setColor('#4e094b') // Roxo defaut
             .setTimestamp() // Adiciona a hora atual no fundo
             .setFooter({ 
-                text: `Enviado por ${message.author.tag}`, 
+                text: `Solicitado por ${message.author.username}`, 
                 iconURL: message.author.displayAvatarURL() 
             });
 
-        try {
-            // Envia o embed para o canal pretendido
-            await targetChannel.send({ embeds: [embed] });
+        // Menu de seleção que lista automaticamente os canais de texto do servidor
+        const selectMenu = new ChannelSelectMenuBuilder()
+            .setCustomId('selecionar_canal_embed')
+            .setPlaceholder('Escolha o canal de destino...')
+            .addChannelTypes(ChannelType.GuildText); // apenas canais de texto 
 
-            // Responder para confirmar o envio
-            await message.reply(`Embed enviado com sucesso para o canal ${targetChannel}!`);
+        const row = new ActionRowBuilder().addComponents(selectMenu);
+
+        try {
+            // Envia o painel inicial com o menu para o utilizador
+            await message.reply({ embeds: [embed], components: [row] });
         } catch (error) {
             console.error(error);
-            await message.reply('Ocorreu um erro ao tentar enviar o embed. Verifica se eu tenho permissões para falar no canal.');
+            await message.reply('Ocorreu um erro ao tentar abrir o painel.');
         }
     }
 };
