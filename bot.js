@@ -92,25 +92,25 @@ client.on("messageCreate", async message => {
 });
 
 client.on("interactionCreate", async interaction => {
-    if (!interaction.isChatInputCommand()) return;
+    // Executa apenas se for um comando de texto (Slash)
+    if (interaction.isChatInputCommand()) {
+        const comando = client.commands.get(interaction.commandName);
+        if (!comando) return;
 
-    const comando = client.commands.get(interaction.commandName);
-    if (!comando) return;
-
-    try {
-        if (comando.execute) {
-            await comando.execute(interaction, client);
-        }
-    } catch (error) {
-        console.error(error);
-        if (interaction.replied || interaction.deferred) {
-            await interaction.followUp({ content: 'Houve um erro ao executar o comando!', ephemeral: true });
-        } else {
-            await interaction.reply({ content: 'Houve um erro ao executar o comando!', ephemeral: true });
+        try {
+            if (comando.execute) {
+                await comando.execute(interaction, client);
+            }
+        } catch (error) {
+            console.error(error);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.followUp({ content: 'Houve um erro ao executar o comando!', ephemeral: true });
+            } else {
+                await interaction.reply({ content: 'Houve um erro ao executar o comando!', ephemeral: true });
+            }
         }
     }
 });
-
 // Ler eventos da pasta eventos 
 const eventsPath = path.join(__dirname, 'events');
 
