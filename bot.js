@@ -5,7 +5,7 @@ const path = require("node:path");
 const configDados = require("./config.json");
 const { DisTube } = require('distube');
 const { YouTubePlugin } = require('@distube/youtube'); 
-const { ExtractorPlugin } = require('@distube/extractor');
+const { SoundcloudPlugin } = require('@distube/plugins');
 
 const client = new Client({
     intents: [
@@ -31,7 +31,7 @@ const client = new Client({
 client.distube = new DisTube(client, {
     emitNewSongOnly: true,
     emitAddSongWhenCreatingQueue: false,
-    plugins: [new YouTubePlugin(), new ExtractorPlugin()]
+    plugins: [new YouTubePlugin(), new SoundcloudPlugin()]
 });
 
 // Eventos do DisTube para avisar no chat quando a música muda
