@@ -4,7 +4,8 @@ const fs = require("node:fs");
 const path = require("node:path");
 const configDados = require("./config.json");
 const { DisTube } = require('distube');
-const { YouTubePlugin } = require('@discordjs/youtube');
+const { YouTubePlugin } = require('@distube/youtube'); 
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -25,7 +26,6 @@ const client = new Client({
         Partials.GuildScheduledEvent,
     ]
 });
-
 
 client.distube = new DisTube(client, {
     leaveOnStop: false,
@@ -67,7 +67,7 @@ for (const file of commandFiles) {
         }
         console.log(`Comando carregado: ${name}`);
     } else {
-        console.log(` O comando em ${filePath} está com uma estrutura inválida.`);
+        console.log(`⚠️ O comando em ${filePath} está com uma estrutura inválida.`);
     }
 }
 
@@ -111,7 +111,6 @@ client.on("messageCreate", async message => {
     const args = message.content.slice(prefixo.length).trim().split(/ +/g);
     const comandoNome = args.shift().toLowerCase();
     
-    // Altera esta linha para procurar pelo nome ou abreviação
     const comando = client.commands.get(comandoNome) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(comandoNome));
 
     if (!comando) return;
@@ -120,7 +119,7 @@ client.on("messageCreate", async message => {
         if (comando.executePrefix) {
             await comando.executePrefix(message, args, client);
         } else if (comando.execute) {
-            await comando.execute(message, args, client); // Fallback caso partilhem a mesma função
+            await comando.execute(message, args, client);
         }
     } catch (error) {
         console.error(error);
@@ -167,7 +166,6 @@ client.on("interactionCreate", async interaction => {
         return await interaction.showModal(modal);
     }
 
-
     if (interaction.isModalSubmit() && interaction.customId === 'modal_ticket') {
         await interaction.deferReply({ ephemeral: true });
 
@@ -176,7 +174,6 @@ client.on("interactionCreate", async interaction => {
         const membro = interaction.user;
 
         try {
-            // Cria o canal de suporte
             const ticketChannel = await guild.channels.create({
                 name: `ticket-${membro.username}`,
                 type: ChannelType.GuildText,
@@ -189,7 +186,6 @@ client.on("interactionCreate", async interaction => {
                 ],
             });
 
-            // Procura e adiciona cargos com permissão de Administrador
             const adminRoles = guild.roles.cache.filter(role => role.permissions.has(PermissionFlagsBits.Administrator));
             for (const [id, role] of adminRoles) {
                 await ticketChannel.permissionOverwrites.edit(role.id, {
