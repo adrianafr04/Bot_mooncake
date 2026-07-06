@@ -5,7 +5,6 @@ const path = require("node:path");
 const configDados = require("./config.json");
 const { DisTube } = require('distube');
 const { YouTubePlugin } = require('@distube/youtube'); 
-const { SoundcloudPlugin } = require('@distube/plugins');
 
 const client = new Client({
     intents: [
@@ -28,24 +27,23 @@ const client = new Client({
     ]
 });
 
+const { DisTube } = require('distube');
+const { YouTubePlugin } = require('@distube/youtube');
+
 client.distube = new DisTube(client, {
     emitNewSongOnly: true,
     emitAddSongWhenCreatingQueue: false,
-    plugins: [new YouTubePlugin(), new SoundcloudPlugin()]
-});
-
-// Eventos do DisTube para avisar no chat quando a música muda
-client.distube.on('playSong', (queue, song) => {
-    queue.textChannel.send(`🎶 A tocar agora: **${song.name}** - \`${song.formattedDuration}\`\nPedida por: ${song.user}`);
-});
-
-client.distube.on('addSong', (queue, song) => {
-    queue.textChannel.send(`✅ Adicionada à fila: **${song.name}** - \`${song.formattedDuration}\``);
-});
-
-client.distube.on('error', (channel, e) => {
-    console.error(e);
-    if (channel) channel.send(`❌ Ocorreu um erro: ${e.toString().slice(0, 1900)}`);
+    plugins: [
+        new YouTubePlugin({
+            // Configurações para evitar bloqueios sem usar cookies
+            compatibilityMode: true,
+            ytdlOptions: {
+                highWaterMark: 1 << 25, 
+                filter: 'audioonly',
+                quality: 'highestaudio'
+            }
+        })
+    ]
 });
 
 client.commands = new Collection();
