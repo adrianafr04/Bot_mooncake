@@ -11,7 +11,7 @@ module.exports = {
     async execute(message, args, client) {
         // Usa quem enviou o comando para simular o novo membro
         const membro = message.member;
-        const canalPrincipalID = "1392475192730845195"; 
+        const canalPrincipalID = "1523040255429841028"; 
         const nomesPermitidos = ["welcome", "bem-vindo", "boas-vindas"];
 
         //tenta encontrar call pelo ID
