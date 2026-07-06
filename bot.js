@@ -3,11 +3,6 @@ const { Client, GatewayIntentBits, Partials, Collection, Events, PermissionFlags
 const fs = require("node:fs");
 const path = require("node:path");
 const configDados = require("./config.json");
-const { DisTube } = require('distube');
-const { YouTubePlugin } = require('@distube/youtube');
-const ffmpegPath = require('ffmpeg-static');
-const path = require('path');
-const ytdl = require('@distube/ytdl-core')
 
 const client = new Client({
     intents: [
@@ -27,25 +22,6 @@ const client = new Client({
         Partials.User,
         Partials.Channel,
         Partials.GuildScheduledEvent,
-    ]
-});
-
-client.distube = new DisTube(client, {
-    emitNewSongOnly: true,
-    emitAddSongWhenCreatingQueue: false,
-    ffmpeg: {
-        path: ffmpegPath
-    },
-    plugins: [
-        new YouTubePlugin({
-            cookies: JSON.parse(require('fs').readFileSync(path.join(__dirname, 'cookies.json'), 'utf-8')),
-            ytdlCore: ytdl,
-            ytdlOptions: {
-                highWaterMark: 1 << 25,
-                quality: 'highestaudio', 
-                liveBuffer: 40000
-            }
-        })
     ]
 });
 
