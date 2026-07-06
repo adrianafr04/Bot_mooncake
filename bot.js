@@ -36,6 +36,7 @@ client.distube = new DisTube(client, {
     },
     plugins: [
         new YouTubePlugin({
+            cookies: require('./cookies.json'),
             ytdlOptions: {
                 highWaterMark: 1 << 25,
                 filter: 'audioonly',
