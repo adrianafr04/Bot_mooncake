@@ -27,7 +27,6 @@ const client = new Client({
     ]
 });
 
-const { DisTube } = require('distube');
 const { YouTubePlugin } = require('@distube/youtube');
 
 client.distube = new DisTube(client, {
