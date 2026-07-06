@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { Client, GatewayIntentBits, Partials, Collection, Events, PermissionFlagsBits, ChannelType, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require("discord.js");
+const { Client, GatewayIntentBits, Partials, Collection, Events, PermissionFlagsBits, ChannelType, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, REST, Routes } = require("discord.js");
 const fs = require("node:fs");
 const path = require("node:path");
 const configDados = require("./config.json");
@@ -26,6 +26,7 @@ const client = new Client({
 });
 
 client.commands = new Collection();
+const commandsSlashData = [];
 
 // Sistema para carregar comandos
 const commandsPath = path.join(__dirname, "commands");
@@ -38,6 +39,9 @@ for (const file of commandFiles) {
     if ((command.data || command.name) && (command.execute || command.executePrefix)) {
         const name = command.data ? command.data.name : command.name;
         client.commands.set(name, command);
+        if (command.data) {
+            commandsSlashData.push(command.data.toJSON());
+        }
         console.log(`Comando carregado: ${name}`);
     } else {
         console.log(` O comando em ${filePath} está com uma estrutura inválida.`);
@@ -58,9 +62,19 @@ process.on('uncaughtException', (err) => {
 
 // Bot online e atividade 
 const { ActivityType } = require("discord.js");
-client.once(Events.ClientReady, () => {
+client.once(Events.ClientReady, async () => {
     console.log(`${client.user.username} está online`);
     client.user.setActivity('Eu vou coringar HAHAHAHAHA!', { type: ActivityType.Playing });
+
+    const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
+    try {
+        await rest.put(
+            Routes.applicationCommands(client.user.id),
+            { body: commandsSlashData },
+        );
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 // Comandos por prefixo
