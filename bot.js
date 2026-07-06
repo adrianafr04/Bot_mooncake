@@ -32,15 +32,15 @@ client.distube = new DisTube(client, {
     emitNewSongOnly: true,
     emitAddSongWhenCreatingQueue: false,
     ffmpeg: {
-        path: ffmpegPath 
+        path: ffmpegPath
     },
     plugins: [
         new YouTubePlugin({
-            cookies: require('./cookies.json'),
+            cookies: JSON.parse(require('fs').readFileSync(path.join(__dirname, 'cookies.json'), 'utf-8')),
             ytdlOptions: {
                 highWaterMark: 1 << 25,
-                filter: 'audioonly',
-                quality: 'highestaudio'
+                quality: 'highestaudio', 
+                liveBuffer: 40000
             }
         })
     ]
