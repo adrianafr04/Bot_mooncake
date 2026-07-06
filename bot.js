@@ -28,7 +28,6 @@ const client = new Client({
 });
 
 client.distube = new DisTube(client, {
-    leaveOnStop: false,
     emitNewSongOnly: true,
     emitAddSongWhenCreatingQueue: false,
     plugins: [new YouTubePlugin()]
