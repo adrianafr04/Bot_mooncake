@@ -38,9 +38,9 @@ for (const file of commandFiles) {
     if ((command.data || command.name) && (command.execute || command.executePrefix)) {
         const name = command.data ? command.data.name : command.name;
         client.commands.set(name, command);
-        console.log(`[SUCESSO] Comando carregado: ${name}`);
+        console.log(`Comando carregado: ${name}`);
     } else {
-        console.log(`[AVISO] O comando em ${filePath} está com uma estrutura inválida.`);
+        console.log(` O comando em ${filePath} está com uma estrutura inválida.`);
     }
 }
 
