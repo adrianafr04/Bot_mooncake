@@ -28,7 +28,7 @@ module.exports = {
         await interaction.reply({ content: '✅ Painel de suporte configurado com sucesso neste canal!', ephemeral: true });
     },
 
-    async run(client, message, args) {
+    async executePrefix(message, args, client) {
         if (!message.member.permissions.has(PermissionFlagsBits.Administrator)) {
             return message.reply(' Apenas administradores podem configurar o canal de suporte.');
         }
