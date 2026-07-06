@@ -27,17 +27,14 @@ const client = new Client({
     ]
 });
 
-const { YouTubePlugin } = require('@distube/youtube');
-
 client.distube = new DisTube(client, {
     emitNewSongOnly: true,
     emitAddSongWhenCreatingQueue: false,
     plugins: [
         new YouTubePlugin({
-            // Configurações para evitar bloqueios sem usar cookies
             compatibilityMode: true,
             ytdlOptions: {
-                highWaterMark: 1 << 25, 
+                highWaterMark: 1 << 25,
                 filter: 'audioonly',
                 quality: 'highestaudio'
             }
