@@ -32,7 +32,6 @@ client.distube = new DisTube(client, {
     emitAddSongWhenCreatingQueue: false,
     plugins: [
         new YouTubePlugin({
-            compatibilityMode: true,
             ytdlOptions: {
                 highWaterMark: 1 << 25,
                 filter: 'audioonly',
