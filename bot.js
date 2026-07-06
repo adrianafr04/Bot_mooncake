@@ -3,7 +3,8 @@ const { Client, GatewayIntentBits, Partials, Collection, Events, PermissionFlags
 const fs = require("node:fs");
 const path = require("node:path");
 const configDados = require("./config.json");
-
+const { DisTube } = require('distube');
+const { YouTubePlugin } = require('@discordjs/youtube');
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -23,6 +24,28 @@ const client = new Client({
         Partials.Channel,
         Partials.GuildScheduledEvent,
     ]
+});
+
+
+client.distube = new DisTube(client, {
+    leaveOnStop: false,
+    emitNewSongOnly: true,
+    emitAddSongWhenCreatingQueue: false,
+    plugins: [new YouTubePlugin()]
+});
+
+// Eventos do DisTube para avisar no chat quando a música muda
+client.distube.on('playSong', (queue, song) => {
+    queue.textChannel.send(`🎶 A tocar agora: **${song.name}** - \`${song.formattedDuration}\`\nPedida por: ${song.user}`);
+});
+
+client.distube.on('addSong', (queue, song) => {
+    queue.textChannel.send(`✅ Adicionada à fila: **${song.name}** - \`${song.formattedDuration}\``);
+});
+
+client.distube.on('error', (channel, e) => {
+    console.error(e);
+    if (channel) channel.send(`❌ Ocorreu um erro: ${e.toString().slice(0, 1900)}`);
 });
 
 client.commands = new Collection();
@@ -87,7 +110,9 @@ client.on("messageCreate", async message => {
 
     const args = message.content.slice(prefixo.length).trim().split(/ +/g);
     const comandoNome = args.shift().toLowerCase();
-    const comando = client.commands.get(comandoNome);
+    
+    // Altera esta linha para procurar pelo nome ou abreviação
+    const comando = client.commands.get(comandoNome) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(comandoNome));
 
     if (!comando) return;
 
