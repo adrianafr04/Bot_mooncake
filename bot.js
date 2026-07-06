@@ -5,6 +5,7 @@ const path = require("node:path");
 const configDados = require("./config.json");
 const { DisTube } = require('distube');
 const { YouTubePlugin } = require('@distube/youtube'); 
+const ffmpegPath = require('ffmpeg-static');
 
 const client = new Client({
     intents: [
@@ -30,6 +31,9 @@ const client = new Client({
 client.distube = new DisTube(client, {
     emitNewSongOnly: true,
     emitAddSongWhenCreatingQueue: false,
+    ffmpeg: {
+        path: ffmpegPath 
+    },
     plugins: [
         new YouTubePlugin({
             ytdlOptions: {
