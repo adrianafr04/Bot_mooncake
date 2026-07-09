@@ -43,7 +43,7 @@ module.exports = {
                 `Desejamos uma ótima experiência e esperamos que você se divirta bastante! 🚀`
             )
             .setThumbnail(membro.user.displayAvatarURL({ dynamic: true, size: 256 }))
-            .setImage("https://www.tumblr.com/slapphapp1/651748450110783488/hollow-purple") 
+            .setImage("https://media1.tenor.com/m/MSlshZS6CVYAAAAC/satoru-gojo---correndo.gif") 
             .setFooter({ 
                 text: `${membro.guild.name} • Membro nº ${membro.guild.memberCount} (Simulação)`, 
                 iconURL: membro.guild.iconURL({ dynamic: true }) 

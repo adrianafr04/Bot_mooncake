@@ -45,7 +45,7 @@ module.exports = {
             .setThumbnail(membro.user.displayAvatarURL({ dynamic: true, size: 256 }))
             
             // Link do gif
-            .setImage("https://www.tumblr.com/slapphapp1/651748450110783488/hollow-purple") 
+            .setImage("https://media1.tenor.com/m/MSlshZS6CVYAAAAC/satoru-gojo---correndo.gif") 
             
             .setFooter({ 
                 text: `${membro.guild.name} • Membro nº ${membro.guild.memberCount}`, 
