@@ -45,10 +45,9 @@ module.exports = {
             .setThumbnail(membro.user.displayAvatarURL({ dynamic: true, size: 256 }))
             
             // Link do gif
-            .setImage("https://media1.tenor.com/m/MSlshZS6CVYAAAAC/satoru-gojo---correndo.gif") 
-            
+            .setImage("https://media.tenor.com/MSlshZS6CVYAAAAC/satoru-gojo-correndo.gif") 
             .setFooter({ 
-                text: `${membro.guild.name} • Membro nº ${membro.guild.memberCount}`, 
+                text: `${membro.guild.name} • Membro nº ${membro.guild.memberCount} (Simulação)`, 
                 iconURL: membro.guild.iconURL({ dynamic: true }) 
             })
             .setTimestamp();
