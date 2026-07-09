@@ -43,7 +43,7 @@ module.exports = {
                 `Desejamos uma ótima experiência e esperamos que você se divirta bastante! 🚀`
             )
             .setThumbnail(membro.user.displayAvatarURL({ dynamic: true, size: 256 }))
-            .setImage("https://i.pinimg.com/originals/b0/45/fc/b045fc647b6a4a4bc2dd3d31f4a948ef.gif") 
+            .setImage("https://gifdb.com/gif/anime-cute-purple-dream-catcher-nzqj5bzuihq6xzs2.html") 
             .setFooter({ 
                 text: `${membro.guild.name} • Membro nº ${membro.guild.memberCount} (Simulação)`, 
                 iconURL: membro.guild.iconURL({ dynamic: true }) 
