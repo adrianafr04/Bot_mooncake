@@ -45,7 +45,7 @@ module.exports = {
             .setThumbnail(membro.user.displayAvatarURL({ dynamic: true, size: 256 }))
             
             // Link do gif
-            .setImage("https://www.pinterest.com/pin/heart-purple-gif-heart-purple-hand-neon-art-tutorial--109423465941337153/") 
+            .setImage("https://gifs.alphacoders.com/gifs/view/220123") 
             
             .setFooter({ 
                 text: `${membro.guild.name} • Membro nº ${membro.guild.memberCount}`, 
