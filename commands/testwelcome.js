@@ -43,7 +43,7 @@ module.exports = {
                 `Desejamos uma ótima experiência e esperamos que você se divirta bastante! 🚀`
             )
             .setThumbnail(membro.user.displayAvatarURL({ dynamic: true, size: 256 }))
-            .setImage("https://gifs.alphacoders.com/gifs/view/220123") 
+            .setImage("https://www.pinterest.com/pin/jujutsu-no-kaisen--629237379193961978/") 
             .setFooter({ 
                 text: `${membro.guild.name} • Membro nº ${membro.guild.memberCount} (Simulação)`, 
                 iconURL: membro.guild.iconURL({ dynamic: true }) 

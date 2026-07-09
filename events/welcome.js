@@ -45,7 +45,7 @@ module.exports = {
             .setThumbnail(membro.user.displayAvatarURL({ dynamic: true, size: 256 }))
             
             // Link do gif
-            .setImage("https://gifs.alphacoders.com/gifs/view/220123") 
+            .setImage("https://www.pinterest.com/pin/jujutsu-no-kaisen--629237379193961978/") 
             
             .setFooter({ 
                 text: `${membro.guild.name} • Membro nº ${membro.guild.memberCount}`, 
