@@ -47,7 +47,7 @@ module.exports = {
             // Link do gif
             .setImage("https://media.tenor.com/MSlshZS6CVYAAAAC/satoru-gojo-correndo.gif") 
             .setFooter({ 
-                text: `${membro.guild.name} • Membro nº ${membro.guild.memberCount} (Simulação)`, 
+                text: `${membro.guild.name} • Membro nº ${membro.guild.memberCount}`, 
                 iconURL: membro.guild.iconURL({ dynamic: true }) 
             })
             .setTimestamp();
