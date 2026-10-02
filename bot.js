@@ -65,7 +65,9 @@ const { ActivityType } = require("discord.js");
 client.once(Events.ClientReady, async () => {
     console.log(`${client.user.username} está online`);
     client.user.setActivity('Thinking about new features', { type: ActivityType.Playing });
-
+    //status do bot (não perturbe)
+    const { PresenceUpdateStatus } = require('discord.js');
+client.user.setStatus(PresenceUpdateStatus.DoNotDisturb);
     const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
     try {
         await rest.put(
@@ -76,9 +78,6 @@ client.once(Events.ClientReady, async () => {
         console.error(error);
     }
 });
-// Status discord do bot 
-const { PresenceUpdateStatus } = require('discord.js');
-client.user.setStatus(PresenceUpdateStatus.DoNotDisturb);
 
 // Comandos por prefixo
 client.on("messageCreate", async message => {
