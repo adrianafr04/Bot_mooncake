@@ -34,7 +34,7 @@ module.exports = {
 
         const embedWelcome = new EmbedBuilder()
             .setColor("#4c0655")
-            .setTitle("🎉 Bem-vindo(a) ao nosso servidor! ")
+            .setTitle(" Bem-vindo(a) ao nosso servidor! ")
             .setDescription(
                 `Olá, ${membro}! Seja muito bem-vindo(a) à nossa comunidade. Estamos felizes por ter você aqui!\n\n` +
                 `📌 **Não se esqueça de ler as regras** para garantir uma boa convivência com todos.\n\n` +

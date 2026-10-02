@@ -25,7 +25,7 @@ module.exports = {
         }
 
         await enviarPainel(interaction.channel);
-        await interaction.reply({ content: '✅ Painel de suporte configurado com sucesso neste canal!', ephemeral: true });
+        await interaction.reply({ content: ' Painel de suporte configurado com sucesso neste canal!', ephemeral: true });
     },
 
     async executePrefix(message, args, client) {
