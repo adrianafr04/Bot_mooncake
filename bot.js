@@ -76,6 +76,9 @@ client.once(Events.ClientReady, async () => {
         console.error(error);
     }
 });
+// Status discord do bot 
+const { PresenceUpdateStatus } = require('discord.js');
+client.user.setStatus(PresenceUpdateStatus.DoNotDisturb);
 
 // Comandos por prefixo
 client.on("messageCreate", async message => {
