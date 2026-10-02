@@ -64,7 +64,7 @@ process.on('uncaughtException', (err) => {
 const { ActivityType } = require("discord.js");
 client.once(Events.ClientReady, async () => {
     console.log(`${client.user.username} está online`);
-    client.user.setActivity('Im Bored', { type: ActivityType.Playing });
+    client.user.setActivity('Thinking about new features', { type: ActivityType.Playing });
 
     const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
     try {
