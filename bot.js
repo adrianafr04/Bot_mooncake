@@ -67,7 +67,8 @@ client.once(Events.ClientReady, async () => {
     client.user.setActivity('Thinking about new features', { type: ActivityType.Playing });
     //status do bot (não perturbe)
     const { PresenceUpdateStatus } = require('discord.js');
-client.user.setStatus(PresenceUpdateStatus.DoNotDisturb);
+client.user.setStatus(PresenceUpdateStatus.Idle);
+
     const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
     try {
         await rest.put(
