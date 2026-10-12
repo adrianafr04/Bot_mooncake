@@ -30,11 +30,11 @@ module.exports = {
 
     async execute(interaction, client) {
         if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
-            return interaction.reply({ content: "❌ Só administradores podem usar este comando.", ephemeral: true });
+            return interaction.reply({ content: "Só administradores podem usar este comando.", ephemeral: true });
         }
         if (!temPermissoesBot(interaction.channel)) {
             return interaction.reply({
-                content: "❌ Preciso das permissões *Gerir Mensagens* e *Ver Histórico de Mensagens* neste canal.",
+                content: "Preciso das permissões *Gerir Mensagens* e *Ver Histórico de Mensagens* neste canal.",
                 ephemeral: true,
             });
         }
@@ -45,16 +45,16 @@ module.exports = {
             await interaction.editReply(`🧹 ${total} mensagens apagadas.`);
         } catch (err) {
             console.error(err);
-            await interaction.editReply("❌ Ocorreu um erro ao apagar as mensagens.");
+            await interaction.editReply("Ocorreu um erro ao apagar as mensagens.");
         }
     },
 
     async executePrefix(message, args, client) {
         if (!message.member.permissions.has(PermissionFlagsBits.Administrator)) {
-            return message.reply("❌ Só administradores podem usar este comando.");
+            return message.reply(" Só administradores podem usar este comando.");
         }
         if (!temPermissoesBot(message.channel)) {
-            return message.reply("❌ Preciso das permissões *Gerir Mensagens* e *Ver Histórico de Mensagens* neste canal.");
+            return message.reply(" Preciso das permissões *Gerir Mensagens* e *Ver Histórico de Mensagens* neste canal.");
         }
 
         try {
@@ -63,7 +63,7 @@ module.exports = {
             setTimeout(() => aviso.delete().catch(() => {}), 5000);
         } catch (err) {
             console.error(err);
-            message.channel.send("❌ Ocorreu um erro ao apagar as mensagens.");
+            message.channel.send(" Ocorreu um erro ao apagar as mensagens.");
         }
     },
 };
