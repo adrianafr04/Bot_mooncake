@@ -65,7 +65,7 @@ const { ActivityType } = require("discord.js");
 client.once(Events.ClientReady, async () => {
     console.log(`${client.user.username} está online`);
     client.user.setActivity('Thinking about new features', { type: ActivityType.Playing });
-    //status do bot (não perturbe)
+    //status do bot
     const { PresenceUpdateStatus } = require('discord.js');
 client.user.setStatus(PresenceUpdateStatus.Idle);
 
