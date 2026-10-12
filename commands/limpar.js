@@ -107,4 +107,27 @@ module.exports = {
             return message.reply("Só administradores podem usar este comando.");
         }
         if (!temPermissoesBot(message.channel)) {
-            return message.reply("Preciso das permissões *Gerir Mensagens* e
+            return message.reply("Preciso das permissões *Gerir Mensagens* e *Ver Histórico de Mensagens* neste canal.");
+        }
+
+        // Sem número = apaga tudo
+        let limite = Infinity;
+        if (args[0]) {
+            limite = parseInt(args[0], 10);
+            if (isNaN(limite) || limite < 1) {
+                return message.reply("Uso: `!limpar` (apaga tudo) ou `!limpar 50` (apaga 50 mensagens).");
+            }
+        }
+
+        const canal = message.channel;
+        try {
+            await canal.send("A limpar o canal... (mensagens antigas podem demorar)");
+            const total = await limparCanal(canal, limite);
+            const final = await canal.send(`${total} mensagens apagadas.`);
+            setTimeout(() => final.delete().catch(() => {}), 5000);
+        } catch (err) {
+            console.error(err);
+            canal.send("Ocorreu um erro ao apagar as mensagens.").catch(() => {});
+        }
+    },
+};
