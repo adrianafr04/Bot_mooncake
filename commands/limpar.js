@@ -2,38 +2,48 @@ const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 
 const CATORZE_DIAS = 14 * 24 * 60 * 60 * 1000;
 
-async function limparCanal(canal) {
+async function limparCanal(canal, limite = Infinity) {
     let total = 0;
+    let falhas = 0;
+    let analisadas = 0;
+    let antes;
 
-    while (true) {
-        const mensagens = await canal.messages.fetch({ limit: 100 });
-        console.log(`[limpar] Mensagens encontradas: ${mensagens.size}`);
+    while (analisadas < limite) {
+        const opcoes = { limit: Math.min(100, limite - analisadas) };
+        if (antes) opcoes.before = antes;
+
+        const mensagens = await canal.messages.fetch(opcoes);
         if (mensagens.size === 0) break;
+
+        analisadas += mensagens.size;
+        antes = mensagens.last().id;
 
         const recentes = mensagens.filter(m => Date.now() - m.createdTimestamp < CATORZE_DIAS);
         const antigas = mensagens.filter(m => !recentes.has(m.id));
-        console.log(`[limpar] Recentes: ${recentes.size} | Antigas: ${antigas.size}`);
 
-        let apagadasNestaRonda = 0;
-
+        // Recentes: apagadas em massa
         if (recentes.size > 0) {
-            const apagadas = await canal.bulkDelete(recentes, true);
-            apagadasNestaRonda += apagadas.size;
-        }
-
-        for (const m of antigas.values()) {
             try {
-                await m.delete();
-                apagadasNestaRonda++;
+                const apagadas = await canal.bulkDelete(recentes, true);
+                total += apagadas.size;
             } catch (err) {
-                console.error(`[limpar] Falhou ao apagar ${m.id}:`, err.message);
+                console.error(`[limpar] bulkDelete falhou (código ${err.code}):`, err.message);
             }
         }
 
-        total += apagadasNestaRonda;
-        if (apagadasNestaRonda === 0) break;
+        // Antigas (+14 dias): uma a uma
+        for (const m of antigas.values()) {
+            try {
+                await m.delete();
+                total++;
+            } catch (err) {
+                falhas++;
+                console.error(`[limpar] Falhou ${m.id} (código ${err.code}):`, err.message);
+            }
+        }
     }
 
+    console.log(`[limpar] Fim. Apagadas: ${total} | Falhas: ${falhas}`);
     return total;
 }
 
@@ -45,13 +55,19 @@ function temPermissoesBot(canal) {
 
 module.exports = {
     name: "limpar",
-    description: "Apaga todas as mensagens do canal (apenas admins)",
+    description: "Apaga mensagens do canal. Usa um número para limitar (apenas admins)",
 
     data: new SlashCommandBuilder()
         .setName("limpar")
-        .setDescription("Apaga todas as mensagens do canal (apenas admins)")
+        .setDescription("Apaga mensagens do canal. Usa um número para limitar (apenas admins)")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-        .setDMPermission(false),
+        .setDMPermission(false)
+        .addIntegerOption(opcao =>
+            opcao
+                .setName("quantidade")
+                .setDescription("Quantas mensagens apagar (vazio = todas)")
+                .setMinValue(1)
+        ),
 
     // Slash command
     async execute(interaction, client) {
@@ -65,11 +81,13 @@ module.exports = {
             });
         }
 
+        const limite = interaction.options.getInteger("quantidade") ?? Infinity;
+
         await interaction.deferReply({ ephemeral: true });
 
         const canal = interaction.channel;
         try {
-            const total = await limparCanal(canal);
+            const total = await limparCanal(canal, limite);
             const texto = `${total} mensagens apagadas.`;
 
             // O token da interação expira ao fim de 15 min; se falhar, avisa no canal
@@ -83,24 +101,10 @@ module.exports = {
         }
     },
 
-    // Prefixo (!limpar)
+    // Prefixo (!limpar ou !limpar 50)
     async executePrefix(message, args, client) {
         if (!message.member.permissions.has(PermissionFlagsBits.Administrator)) {
             return message.reply("Só administradores podem usar este comando.");
         }
         if (!temPermissoesBot(message.channel)) {
-            return message.reply("Preciso das permissões *Gerir Mensagens* e *Ver Histórico de Mensagens* neste canal.");
-        }
-
-        const canal = message.channel;
-        try {
-            await canal.send("A limpar o canal... (mensagens antigas podem demorar)");
-            const total = await limparCanal(canal);
-            const final = await canal.send(`${total} mensagens apagadas.`);
-            setTimeout(() => final.delete().catch(() => {}), 5000);
-        } catch (err) {
-            console.error(err);
-            canal.send("Ocorreu um erro ao apagar as mensagens.").catch(() => {});
-        }
-    },
-};
+            return message.reply("Preciso das permissões *Gerir Mensagens* e
