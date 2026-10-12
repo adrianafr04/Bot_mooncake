@@ -7,32 +7,30 @@ async function limparCanal(canal) {
 
     while (true) {
         const mensagens = await canal.messages.fetch({ limit: 100 });
+        console.log(`[limpar] Mensagens encontradas: ${mensagens.size}`);
         if (mensagens.size === 0) break;
 
         const recentes = mensagens.filter(m => Date.now() - m.createdTimestamp < CATORZE_DIAS);
         const antigas = mensagens.filter(m => !recentes.has(m.id));
+        console.log(`[limpar] Recentes: ${recentes.size} | Antigas: ${antigas.size}`);
 
         let apagadasNestaRonda = 0;
 
-        // Recentes: apagadas em massa (rápido)
         if (recentes.size > 0) {
             const apagadas = await canal.bulkDelete(recentes, true);
             apagadasNestaRonda += apagadas.size;
         }
 
-        // Antigas (+14 dias): uma a uma (lento por causa do rate limit)
         for (const m of antigas.values()) {
             try {
                 await m.delete();
                 apagadasNestaRonda++;
             } catch (err) {
-                // mensagem já apagada ou sem permissão: ignora
+                console.error(`[limpar] Falhou ao apagar ${m.id}:`, err.message);
             }
         }
 
         total += apagadasNestaRonda;
-
-        // Segurança: se nada foi apagado, para para não ficar num ciclo infinito
         if (apagadasNestaRonda === 0) break;
     }
 
