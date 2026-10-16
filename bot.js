@@ -227,5 +227,5 @@ if (fs.existsSync(eventsPath)) {
         console.log(`Evento carregado: ${event.name}`);
     }
 }
-
+require("./verificacion")(client);
 client.login(process.env.DISCORD_TOKEN);
